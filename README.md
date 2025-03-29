@@ -23,11 +23,13 @@ A drop-in web dashboard to view and edit [PocketBase](https://pocketbase.io/docs
 
 Creating a new file has a `.pb.js` extension pre-filled only for convenience, but any file extension works fine. If you mainly work with GO, or prefer empty default, you can change `DEFAULT_FILE_EXTENSION` at the top of `hooks-dash/index.js` if you want.
 
-The sidebar can theoretically load/display any level of folder nesting that already exists, but creating a new file/folder via UI currently only works at the `pb_hooks/` root folder level.
+The sidebar can theoretically load/display any level of folder nesting that already exists, but creating a new file/folder via UI is currently only supported at the `pb_hooks/` root folder level. There's a shonky workaround where you can specify the path in the filename input field to create something in an existing folder. 
 
-**Read Only Mode** prevents editing any hooks files, and piggybacks the existing server setting for *'Hide collection create and edit controls'* set in `/_/#/settings`.
+Moving files between folders and deleting/renaming folders is currently not supported through the UI.
 
-For transparency to avoid route collisions, this adds/requires the following API routes on the server:
+**Read Only Mode** prevents editing/deleting anything, and piggybacks the existing server setting for *'Hide collection create and edit controls'* set in `/_/#/settings`.
+
+For transparency to avoid route collisions, this adds the following API routes on the PB server:
  - `/hooks-dash/folder` (GET / PUT)
  - `/hooks-dash/file` (GET / PUT / DELETE)
 
@@ -57,7 +59,7 @@ Piggybacks the css of the existing PB admin dashboard, otherwise uses the follow
 
 # Possible Future Work
 
- - Proper UI workflow for managing multi-level nested folder structure, eg create new files/folders inside folders, move files/folders, rename/delete folders, etc.
+ - Proper UI workflow for managing multi-level nested folder structure, eg create new files/folders inside folders, move files/folders, rename/delete folders, etc. 
  - Easy-mode hooks UI with helper controls/dropdowns to select request method, middlewares, events, etc. Have already implemented a parser to recognise the separate bits of any hooks inside a `.pb.js` file and can easily re-compose to be a valid `.pb.js` file, just haven't yet thought about/decided how to handle the UI workflow of editing individual hooks, especially with multiple hooks in a single file. 
  - Integrated HTTP route tester.
  - Tab width selector.
