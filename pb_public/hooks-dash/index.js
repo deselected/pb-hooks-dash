@@ -170,19 +170,22 @@ async function saveHook()
 	}
 	else
 	{
-		//TODO handle creating files in folders
 		let response = await send('file?path='+newName, {method: 'PUT', body: JSON.stringify(body)})
 		if (response.ok)
 		{
 			//insert new side nav element
 			let parent = document.getElementById('sideNav')
-			for (let filename of newName.split('/'))
-				element = element.querySelector(`[filename="${filename}"]`)
-			element.querySelector('[shortcut="name"]').innerText = newName
-			let newElement = createNavFileElement(newName)
-			parent.insertBefore(newElement, parent.querySelector('div'))
+			let split = newName.split('/')
+			for (let filename of split.slice(0,-1))
+				parent = parent.querySelector(`[hook-key="${filename}"]`)
+			let newElement = createNavFileElement(split[split.length-1])
+			let beforeFolder = parent.querySelector('[hook-type="folder"]')
+			if (beforeFolder)
+				beforeFolder.parentElement.insertBefore(newElement, beforeFolder)
+			else
+				parent.querySelector('.collapse').append(newElement)
 
-			displayHook({srcElement: newElement}, )
+			displayHook({srcElement: newElement})
 		}
 	}
 }
@@ -231,8 +234,9 @@ async function saveFolder(event)
 		let split = path.split('/')
 		for (let filename of split.slice(0,-1))
 			parent = parent.querySelector(`[hook-key="${filename}"]`)
-		let newElement = createNavFolderElement(split[split.length-1])
-		parent.querySelector('.collapse').append(newElement)
+		if (parent.getAttribute('hook-type') == 'folder')
+			parent = parent.querySelector('.collapse')
+		parent.append(createNavFolderElement(split[split.length-1]))
 	}
 }
 
