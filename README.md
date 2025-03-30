@@ -2,6 +2,9 @@
 
 A drop-in web dashboard to view and edit [PocketBase](https://pocketbase.io/docs/use-as-framework/) custom hooks/functions through the browser. 
 
+![image](https://github.com/user-attachments/assets/f23547b8-2856-4ab9-b5e6-18c1196d0584)
+
+
 **Contents**
 
  - [Getting Started](#getting-started)
